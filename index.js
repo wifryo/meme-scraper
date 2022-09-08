@@ -43,4 +43,4 @@ async function scrapeData() {
   }
 }
 
-scrapeData();
+await scrapeData();
