@@ -10,9 +10,12 @@ async function scrapeData() {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
     // Select all images
-    const plip = $('img').attr('src');
-
-    console.log(plip);
+    let arr = [];
+    $('img')
+      .attr('src')
+      .each(function () {
+        arr.push(this);
+      });
   } catch (err) {
     console.error(err);
   }
