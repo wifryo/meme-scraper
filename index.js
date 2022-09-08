@@ -1,11 +1,19 @@
 import fs from 'node:fs';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import fetch from 'node-fetch';
-import { arrayBuffer } from 'stream/consumers';
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const mq = 10;
+
+const folderName = './memes';
+try {
+  if (!fs.existsSync(folderName)) {
+    fs.mkdirSync(folderName);
+  }
+} catch (err) {
+  console.error(err);
+}
+
 async function scrapeData() {
   try {
     // Fetch HTML of the target website
@@ -25,7 +33,7 @@ async function scrapeData() {
         method: 'GET',
         responseType: 'stream',
       });
-      const path = `./img0${i}.jpg`;
+      const path = `./memes/img0${i}.jpg`;
       const writer = fs.createWriteStream(path);
 
       image.data.pipe(writer);
