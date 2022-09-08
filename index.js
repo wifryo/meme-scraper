@@ -1,21 +1,35 @@
+import fs from 'node:fs';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
-import fs from 'fs';
+import fetch from 'node-fetch';
+import { arrayBuffer } from 'stream/consumers';
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
-
+const mq = 10;
 async function scrapeData() {
   try {
     // Fetch HTML of the target website
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
-    // Select all images
-    let arr = [];
-    $('img')
-      .attr('src')
-      .each(function () {
-        arr.push(this);
+    // Initialise array
+    const arr = [];
+    // Extract each image source and push to array
+    $('img', data).each(function () {
+      const image = $(this).attr('src');
+      arr.push(image);
+    });
+    // Do something to each of the first 10 image sources
+    for (let i = 0; i < mq; i++) {
+      const image = await axios({
+        url: arr[i],
+        method: 'GET',
+        responseType: 'stream',
       });
+      const path = `./img0${i}.jpg`;
+      const writer = fs.createWriteStream(path);
+
+      image.data.pipe(writer);
+    }
   } catch (err) {
     console.error(err);
   }
