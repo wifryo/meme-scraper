@@ -56,6 +56,6 @@ async function scrapeMemes() {
   }
 }
 
-scrapeMemes();
+await scrapeMemes();
 bar.update(100);
 bar.stop();
