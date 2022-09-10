@@ -79,8 +79,16 @@ async function scrapeMemes() {
         method: 'GET',
         responseType: 'stream',
       });
+      // Create image name
+      let imgName = i + 1;
+      if (imgName.toString().length > 1) {
+        imgName = `img` + `${imgName}`;
+      } else {
+        imgName = `img0` + `${imgName}`;
+      }
+
       // Write image data to file
-      const path = `./memes/img0${i}.jpg`;
+      const path = `./memes/${imgName}.jpg`;
       const writer = fs.createWriteStream(path);
       image.data.pipe(writer);
 
