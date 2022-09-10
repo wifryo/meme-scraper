@@ -82,9 +82,9 @@ async function scrapeMemes() {
       // Create image name
       let imgName = i + 1;
       if (imgName.toString().length > 1) {
-        imgName = `img` + `${imgName}`;
+        imgName = `img` + imgName;
       } else {
-        imgName = `img0` + `${imgName}`;
+        imgName = `img0` + imgName;
       }
 
       // Write image data to file
